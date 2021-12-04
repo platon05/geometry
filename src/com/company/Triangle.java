@@ -1,46 +1,72 @@
 package com.company;
 
 import java.awt.*;
+import java.util.Random;
 
 public class Triangle {
-    Point first;
-    Point second;
-    Point third;
-    Color c;
+    Point point1;
+    Point point2;
+    Point point3;
+    double a;
+    double b;
+    double c;
 
-    public Triangle(Point v1, Point v2, Point v3) {
-        this.first = new Point(v1);
-        this.second = new Point(v2);
-        this.third = new Point(v3);
-
+    Triangle(Point v1, Point v2, Point v3) {
+        point1 = v1;
+        point2 = v2;
+        point3 = v3;
     }
 
-    public void move(double dx, double dy) {
-        first.move(dx, dy);
-        second.move(dx, dy);
-        third.move(dx, dy);
+    double getSurface() {
+        return ((point1.x - point3.x) * (point2.y - point3.y) - (point2.x - point3.x) * (point1.y - point3.y)) / 2;
     }
 
-    public void setColor(Color c) {
-        this.c = c;
+    double petPerimeter() {
+        a = Math.sqrt((point1.x - point2.x) * (point1.x - point2.x) + (point1.y - point2.y) * (point1.y - point2.y));
+        b = Math.sqrt((point2.x - point3.x) * (point2.x - point3.x) + (point3.y - point2.y) * (point3.y - point2.y));
+        c = Math.sqrt((point1.x - point3.x) * (point1.x - point3.x) + (point1.y - point3.y) * (point1.y - point3.y));
+        return (a + b + c) / 2;
     }
 
-    public double getSurface() {
-         double p = (first.distanceTo(second) + second.distanceTo(third) + third.distanceTo(first)) / 2;
-        return Math.sqrt(p * (p - first.distanceTo(second)) * (p - second.distanceTo(third)) * (p - third.distanceTo(first)));
+    boolean isIsoceles() {
+        if (a == b) {
+            return true;
+        }
+        else if (a == c) {
+            return true;
+        }
+        else if (b == c) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
-    public double getPerimeter(){
-        return first.distanceTo(second) + second.distanceTo(third) + third.distanceTo(first);
+    boolean isRectangle() {
+        return a * a + b * b == c * c;
+    }
+
+    boolean estEquilateral() {
+        return a == b && b == c;
     }
 
     @Override
     public String toString() {
-        return "Triangle{" +
-                "first=" + first +
-                ", second=" + second +
-                ", third=" + third +
-                ", edgeY=" + c +
-                '}';
+        return "Point{(" + point1 + "), (" + point2 + "), (" + point3 + ")}";
+    }
+
+    void move(double dx, double dy) {
+        point1.x += dx;
+        point1.y += dy;
+        point2.x += dx;
+        point2.y += dy;
+        point3.x += dx;
+        point3.y += dy;
+    }
+
+    Color setColor() {
+        Random r = new Random();
+        return new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256));
     }
 }

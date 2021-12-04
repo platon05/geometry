@@ -1,40 +1,39 @@
 package com.company;
 
 import java.awt.*;
+import java.util.Random;
 
 public class Rectangle {
-    Point k;
-    Point m;
-    Color c;
+    Point point;
+    double edgeX;
+    double edgeY;
 
-    public Rectangle(Point v, double edgeX, double edgeY) {
-        this.k = new Point(v);
-        this.m = new Point(v.x + edgeX, v.y + edgeY);
+    Rectangle(Point v, double myX, double myY) {
+        edgeX = myX;
+        edgeY = myY;
+        point = v;
     }
 
-    public void move(double dx, double dy) {
-        k.move(dx, dy);
-        m.move(dx, dy);
+    double getSurface() {
+        return edgeX * edgeY;
     }
 
-    public void setColor(Color c) {
-        this.c = c;
-    }
-
-    public double getSurface() {
-        return 2 * (k.distanceXTo(m) + k.distanceYTo(m));
-    }
-
-    public double getPerimeter() {
-        return k.distanceXTo(m) * k.distanceYTo(m);
+    double getPerimeter() {
+        return (edgeX + edgeY) * 2;
     }
 
     @Override
     public String toString() {
-        return "Rectangle{" +
-                "k=" + k +
-                ", m=" + m +
-                ", c=" + c +
-                '}';
+        return "Point{x=" + point.x + "; y=" + point.y + "}";
+    }
+
+    void move(double dx, double dy) {
+        point.x += dx;
+        point.y += dy;
+    }
+
+    Color setColor() {
+        Random r = new Random();
+        return new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256));
     }
 }
